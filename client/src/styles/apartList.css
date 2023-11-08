@@ -1,0 +1,20 @@
+.list--container {
+  margin-top: 2rem;
+}
+.apartment--list {
+  display: flex;
+  gap: 30px;
+}
+.apartment--list .list--image img {
+  width: 220px;
+}
+.list--image img {
+  border-radius: 5px;
+}
+
+.list-detail {
+  text-align: left;
+}
+.list-detail .list-title {
+  color: #514a4a;
+}
