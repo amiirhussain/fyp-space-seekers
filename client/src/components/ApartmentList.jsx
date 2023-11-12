@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { List } from 'antd';
 import '../styles/apartList.css';
+import ApartList from './ApartList';
 
 const AppartmentList = () => {
   const [userToken] = useState(localStorage.getItem('token'));
@@ -12,7 +12,7 @@ const AppartmentList = () => {
   }, []);
 
   const fetchApartments = () => {
-    fetch('http://localhost:1337/apartment', {
+    fetch('http://localhost:1337/apartment/get-all', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -31,27 +31,26 @@ const AppartmentList = () => {
   };
 
   return (
-    <List
-      className="list--container"
-      itemLayout="vertical"
-      dataSource={apartments}
-      renderItem={(apartment) => (
-        <List.Item key={apartment._id}>
-          <div className="apartment--list">
-            <div className="list--image">
-              <img src={apartment.imageUrls[0]} alt={apartment.title} />
-            </div>
+    <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '20px',
+        }}
+      >
+        <h2 style={{ color: 'gray' }}>All Apartment List</h2>
+      </div>
 
-            <div className="list-detail">
-              <h2 className="list-title">{apartment.title}</h2>
-              <p>Type: {apartment.type}</p>
-              <p>Address: {apartment.address}</p>
-              <p>Size: {apartment.size} sq. ft</p>
-            </div>
-          </div>
-        </List.Item>
-      )}
-    />
+      <div>
+        {loading ? (
+          <p>Loading apartments...</p>
+        ) : (
+          <ApartList apartments={apartments} />
+        )}
+      </div>
+    </div>
   );
 };
 

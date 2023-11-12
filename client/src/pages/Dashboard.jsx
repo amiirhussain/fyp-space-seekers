@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react';
-import { Layout, Menu, theme, Button, Dropdown, Flex } from 'antd';
+import React, { useEffect, useState } from 'react';
+import {
+  Layout,
+  Menu,
+  theme,
+  Button,
+  Dropdown,
+  Flex,
+  message,
+  Result,
+} from 'antd';
 import SidebarMenuList from '../components/SidebarMenuList';
 const { Header, Content, Footer, Sider } = Layout;
 import { EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import AddAppartment from '../components/AddAppartment';
+import { Link, useNavigate } from 'react-router-dom';
 import ApartmentList from '../components/ApartmentList';
 import UserApartment from '../components/UserApartment';
+import AddApartment from '../components/AddAppartment';
 
 const items = [
   {
@@ -33,9 +42,23 @@ const items = [
 ];
 
 const Dashboard = ({ setUserLoggedIn }) => {
+  const [selectedMenuItem, setSelectedMenuItem] = useState('home');
+  const isAuthenticated = localStorage.getItem('token');
+
+  const navigate = useNavigate();
+
   useEffect(() => {
-    setUserLoggedIn(true);
-  }, []);
+    if (!isAuthenticated) {
+      navigate('/');
+      message.error('Please login here'); //
+    }
+    setUserLoggedIn(!!isAuthenticated);
+  }, [isAuthenticated, history, setUserLoggedIn]);
+
+  const handleMenuClick = (key) => {
+    setSelectedMenuItem(key);
+  };
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -50,7 +73,9 @@ const Dashboard = ({ setUserLoggedIn }) => {
           top: 0,
           bottom: 0,
         }}
-      ></Sider>
+      >
+        <SidebarMenuList onMenuClick={handleMenuClick} />
+      </Sider>
       <Layout
         className="site-layout"
         style={{
@@ -92,19 +117,44 @@ const Dashboard = ({ setUserLoggedIn }) => {
               background: colorBgContainer,
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <h2>List</h2>
-              <AddAppartment />
-            </div>
-
-            {/* <ApartmentList /> */}
-            <UserApartment />
+            {selectedMenuItem === 'home' && <AddApartment />}
+            {selectedMenuItem === 'list' && <ApartmentList />}
+            {selectedMenuItem === 'analytics' && (
+              <Result
+                status="info"
+                title="Analytics are Coming Soon!"
+                subTitle="We're working hard to bring you awesome features. Stay tuned!"
+                extra={
+                  <Button type="primary" disabled>
+                    Coming Soon
+                  </Button>
+                }
+              />
+            )}
+            {selectedMenuItem === 'chats' && (
+              <Result
+                status="info"
+                title="Chats are Coming Soon!"
+                subTitle="We're working hard to bring you awesome features. Stay tuned!"
+                extra={
+                  <Button type="primary" disabled>
+                    Coming Soon
+                  </Button>
+                }
+              />
+            )}
+            {selectedMenuItem === 'setting' && (
+              <Result
+                status="info"
+                title="Settings are Coming Soon!"
+                subTitle="We're working hard to bring you awesome features. Stay tuned!"
+                extra={
+                  <Button type="primary" disabled>
+                    Coming Soon
+                  </Button>
+                }
+              />
+            )}
           </div>
         </Content>
         <Footer

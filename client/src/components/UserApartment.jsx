@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { List } from 'antd';
+import { message, Button } from 'antd';
+import ApartList from './ApartList';
 
-const UserApartment = () => {
+const UserApartment = ({ handleEdit }) => {
   const userToken = localStorage.getItem('token');
   const [apartments, setApartments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,9 +12,7 @@ const UserApartment = () => {
   }, []);
 
   const fetchUserApartments = () => {
-    console.log('Fetching user apartments...');
-
-    fetch('http://localhost:1337/apartment', {
+    fetch('http://localhost:1337/apartment/by-user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,32 +36,36 @@ const UserApartment = () => {
       });
   };
 
+  // delete
+  const handleDelete = (apartmentId) => {
+    fetch(`http://localhost:1337/apartment/${apartmentId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': userToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Refresh the apartment list after deletion
+        fetchUserApartments();
+        message.success('Apartment deleted successfully');
+      })
+      .catch((error) => {
+        console.error('Error deleting apartment:', error);
+      });
+  };
+
   return (
     <div>
       {loading ? (
         <p>Loading apartments...</p>
       ) : (
-        <List
-          itemLayout="vertical"
-          dataSource={apartments}
-          renderItem={(apartment) => (
-            <List.Item key={apartment._id}>
-              <div className="apartment--list">
-                <div className="list--image">
-                  <img src={apartment.imageUrls[0]} alt={apartment.title} />
-                </div>
-                <div className="list-detail">
-                  <h2 className="list-title">{apartment.title}</h2>
-                  <p>Type: {apartment.type}</p>
-                  <p>Address: {apartment.address}</p>
-                  <p>Size: {apartment.size} sq. ft</p>
-                  <p>
-                    Avail: {apartment.isAvailble ? 'Availble' : 'Not Availble'}
-                  </p>
-                </div>
-              </div>
-            </List.Item>
-          )}
+        <ApartList
+          apartments={apartments}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
         />
       )}
     </div>

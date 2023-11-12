@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Input, Select, Checkbox, message } from 'antd';
+import UserApartment from './UserApartment';
 
 const { Option } = Select;
 
-const AddAppartment = () => {
+const AddApartment = () => {
   const [open, setOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState(null);
   const [userToken] = useState(localStorage.getItem('token'));
+
+  // useEffect(() => {
+  //   // If in edit mode, set the edit data when the component mounts
+  //   if (editMode) {
+  //     setEditData();
+  //   }
+  // }, [editMode]);
 
   const handleSubmit = (values) => {
     fetch('http://localhost:1337/apartment', {
@@ -26,17 +36,62 @@ const AddAppartment = () => {
         console.error('Error creating apartment:', error);
       });
   };
+
+  const handleEditSubmit = (values) => {
+    if (editData) {
+      fetch(`http://localhost:1337/apartment/${editData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': userToken,
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setOpen(false);
+          message.success('Apartment Updated successfully');
+        })
+        .catch((error) => {
+          console.error('Error updating apartment:', error);
+        });
+    } else {
+      console.error('Edit data is null');
+    }
+  };
+
+  const handleEdit = (apartment) => {
+    setOpen(true);
+    setEditMode(true);
+    setEditData(apartment);
+  };
+
   return (
     <div>
-      <Button type="primary" onClick={() => setOpen(true)}>
-        Add Apartment
-      </Button>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '20px',
+        }}
+      >
+        <h2 style={{ color: 'gray' }}>My Apartment List</h2>
+
+        <Button type="primary" onClick={() => setOpen(true)}>
+          Add Apartment
+        </Button>
+      </div>
       <Modal
-        title="List Apartment"
+        title={editMode ? 'Edit Apartment' : 'Add Apartment'}
         centered
         open={open}
         onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false);
+          setEditMode(false);
+        }}
         width={800}
       >
         <Form
@@ -48,7 +103,7 @@ const AddAppartment = () => {
           }}
           style={{ marginTop: '2rem' }}
           name="register-form"
-          onFinish={handleSubmit}
+          onFinish={editMode ? handleEditSubmit : handleSubmit}
           autoComplete="off"
         >
           <Form.Item
@@ -153,13 +208,14 @@ const AddAppartment = () => {
           </Form.Item>
           <Form.Item label=" " colon={false}>
             <Button type="primary" htmlType="submit">
-              Submit
+              {editMode ? 'Update' : 'Submit'}
             </Button>
           </Form.Item>
         </Form>
       </Modal>
+      <UserApartment handleEdit={handleEdit} />
     </div>
   );
 };
 
-export default AddAppartment;
+export default AddApartment;

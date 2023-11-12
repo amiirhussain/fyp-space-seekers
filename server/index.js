@@ -1,10 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import authRoute from './routes/auth.js';
 import userRoute from './routes/user.js';
 import apartmentRoute from './routes/apartment.js';
-import authenticateToken from './middlewares/authenticateToken.js';
 
 // dotenv.config();
 const app = express();
@@ -20,10 +19,10 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('Failed to connect to MongoDB:', error));
 
-//Middlewares
+// //Middlewares
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
-app.use('/apartment', authenticateToken, apartmentRoute);
+app.use('/apartment', apartmentRoute);
 
 // Error Handling middleware
 app.use((error, req, res, next) => {

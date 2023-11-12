@@ -2,42 +2,38 @@ import './App.css';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import About from './pages/About';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import ForgotPassword from './Auth/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Navbar from './components/Header';
-import SidebarMenuList from './components/SidebarMenuList';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppartmentList from './components/ApartmentList';
+import Home from './pages/Home';
+
+import SpaceSeekerServices from './pages/Services';
+import ContactUs from './pages/Contact';
+
 function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const locaion = useLocation();
   const setUserLoggedIn = (loggedIn) => {
     setIsUserLoggedIn(loggedIn);
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('token');
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
   return (
     <>
-      {location.pathname === '/' ||
-      location.pathname === '/login' ||
-      location.pathname === '/register' ||
-      location.pathname === '/about' ||
-      location.pathname === '/contact' ? (
-        <Navbar />
-      ) : (
-        <SidebarMenuList />
-      )}
-
-      {/* {isUserLoggedIn ? null : <Navbar />}
-      {isUserLoggedIn ? <SidebarMenuList /> : null} */}
+      {isUserLoggedIn ? null : <Navbar />}
       <Routes>
-        <Route path="/" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route
           path="/login"
@@ -48,8 +44,9 @@ function App() {
           path="/dashboard"
           element={<Dashboard setUserLoggedIn={setUserLoggedIn} />}
         />
+        <Route path="/services" element={<SpaceSeekerServices />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/list" element={<AppartmentList />} />
       </Routes>
     </>
   );

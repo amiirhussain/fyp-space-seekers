@@ -52,27 +52,55 @@ export const createApartment = async (req, res, next) => {
   }
 };
 
-// Update Apartment
-export const updateApartment = async (req, res, next) => {
+// Delete Apartment
+export const deleteApartment = async (req, res, next) => {
   try {
-    const updatedApartment = await Apartment.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true },
-    );
-    res.status(200).send(updatedApartment);
+    const deletedApartment = await Apartment.findByIdAndDelete(req.params.id);
+
+    if (!deletedApartment) {
+      return res
+        .status(404)
+        .json({ status: 'error', error: 'Apartment not found' });
+    }
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Apartment has been deleted' });
   } catch (error) {
     next(error);
   }
 };
 
-// Delete Apartment
-export const deleteApartment = async (req, res, next) => {
+// Update Apartment
+export const updateApartment = async (req, res, next) => {
   try {
-    await Apartment.findByIdAndDelete(req.params.id);
-    res.status(200).send('Apartment Has Been Deleted!');
+    const updatedFields = {
+      type: req.body.type,
+      title: req.body.title,
+      size: req.body.size,
+      bedrooms: req.body.bedrooms,
+      address: req.body.address,
+      bathrooms: req.body.bathrooms,
+      furnished: req.body.furnished,
+      parking: req.body.parking,
+      distance: req.body.distance,
+      rent: req.body.rent,
+      imageUrls: req.body.imageUrls,
+    };
+
+    const updatedApartment = await Apartment.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedFields },
+      { new: true },
+    );
+
+    if (!updatedApartment) {
+      return res
+        .status(404)
+        .json({ status: 'error', error: 'Apartment not found' });
+    }
+
+    res.status(200).json(updatedApartment);
   } catch (error) {
     next(error);
   }
@@ -88,9 +116,8 @@ export const getApartment = async (req, res, next) => {
   }
 };
 
-// Updated server-side code
 // Get Apartments for Logged-In User
-export const getAllApartments = async (req, res) => {
+export const getAllApartmentsByUser = async (req, res) => {
   try {
     // Retrieve the user's email from the JWT token or your authentication system
     const userEmail = req.user.email;
@@ -106,8 +133,6 @@ export const getAllApartments = async (req, res) => {
     // Extract the user's ID
     const userId = user._id;
 
-    console.log(userId);
-    // Find apartments belonging to the logged-in user
     const userApartments = await Apartment.find({ user: userId });
     res.status(200).json(userApartments);
   } catch (error) {
@@ -116,26 +141,11 @@ export const getAllApartments = async (req, res) => {
 };
 
 // Get All Apartments
-// export const getAllApartments = async (req, res, next) => {
-//   try {
-//     const allApartments = await Apartment.find();
-//     res.status(200).send(allApartments);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// Get All Apartments Uploaded by Logged-In User
-export const getAllApartmentsByUser = async (req, res) => {
+export const getAllApartments = async (req, res, next) => {
   try {
-    const userEmail = req.user.email;
-
-    // Find the user based on their email
-    const user = await User.findOne({ email: userEmail });
-    const userId = user._id; // Assuming you're using user ID in your authentication
-    const userApartments = await Apartment.find({ user: userId });
-    res.status(200).json(userApartments);
+    const allApartments = await Apartment.find();
+    res.status(200).send(allApartments);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch user apartments' });
+    next(error);
   }
 };

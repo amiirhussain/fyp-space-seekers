@@ -4,3 +4,12 @@
   padding: 0;
   font-family: 'Poppins', sans-serif;
 }
+.section--title {
+  text-align: center;
+  margin: 2rem 0;
+}
+.about,
+.services,
+.contact {
+  padding: 2rem 10%;
+}

@@ -8,9 +8,19 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
 
+  const passwordValidator =
+    /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+
   const onFinish = async (values) => {
     if (values.password !== values.confirmPassword) {
       setPasswordError('Passwords do not match');
+      return;
+    }
+
+    if (!passwordValidator.test(values.password)) {
+      setPasswordError(
+        'Password must be at least 6 characters and include at least one number, one alphabet character, and one special character',
+      );
       return;
     }
 
@@ -49,7 +59,7 @@ const Register = () => {
         title="Register"
         bordered={false}
         style={{
-          width: 400,
+          width: 500,
         }}
       >
         <Form
@@ -60,7 +70,7 @@ const Register = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Space style={{ display: 'flex !important' }}>
+          <div style={{ display: 'flex ', justifyContent: 'space-between' }}>
             <Form.Item
               name="userName"
               label="Username"
@@ -71,7 +81,7 @@ const Register = () => {
                 },
               ]}
             >
-              <Input placeholder="User name" />
+              <Input size="large" placeholder="User name" />
             </Form.Item>
             <Form.Item
               name="fullName"
@@ -83,9 +93,9 @@ const Register = () => {
                 },
               ]}
             >
-              <Input placeholder="Full name" />
+              <Input size="large" placeholder="Full name" />
             </Form.Item>
-          </Space>
+          </div>
 
           <Form.Item
             name="email"
@@ -101,13 +111,19 @@ const Register = () => {
               },
             ]}
           >
-            <Input placeholder="Email" />
+            <Input size="large" placeholder="Email" />
           </Form.Item>
           {emailError && (
             <p style={{ color: 'red', marginBottom: '10px' }}>{emailError}</p>
           )}
 
-          <Space style={{ display: 'flex !important' }}>
+          <div
+            style={{
+              display: 'flex ',
+              justifyContent: 'space-between',
+              gap: '20px',
+            }}
+          >
             <Form.Item
               name="password"
               label="Password"
@@ -118,7 +134,7 @@ const Register = () => {
                 },
               ]}
             >
-              <Input.Password placeholder="Password" />
+              <Input.Password size="large" placeholder="Password" />
             </Form.Item>
             <Form.Item
               name="confirmPassword"
@@ -130,9 +146,9 @@ const Register = () => {
                 },
               ]}
             >
-              <Input.Password placeholder="Confirm Password" />
+              <Input.Password size="large" placeholder="Confirm Password" />
             </Form.Item>
-          </Space>
+          </div>
 
           {passwordError && (
             <p style={{ color: 'red', marginBottom: '10px' }}>

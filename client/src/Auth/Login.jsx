@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Card, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
   const [userToken, setUserToken] = useState(null);
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('token');
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const onFinish = async (values) => {
     try {
@@ -34,7 +41,7 @@ const Login = ({ setUserLoggedIn }) => {
 
   return (
     <div className="form--container">
-      <Card title="Login" bordered={false} style={{ width: 400 }}>
+      <Card title="Login" bordered={false} style={{ width: 500 }}>
         <Form
           layout="vertical"
           className="form"
@@ -82,7 +89,7 @@ const Login = ({ setUserLoggedIn }) => {
               Submit
             </Button>
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <Button
               size="large"
               className="form-btn btn-google"
@@ -90,7 +97,7 @@ const Login = ({ setUserLoggedIn }) => {
             >
               Sign in with Google
             </Button>
-          </Form.Item>
+          </Form.Item> */}
           <p style={{ textAlign: 'center' }}>
             Don't have an account? <Link to="/register"> Register Now </Link>
           </p>

@@ -1,46 +1,97 @@
 .hero {
-  background-image: url('../assets/home.jpg');
-  height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
+  height: 88vh;
+  /* padding: 10px; */
+  margin-top: 1rem;
 }
-.hero--overlay {
-  padding: 0 10%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(76, 201, 240, 0.5) 0%,
-    rgba(67, 97, 238, 0.7) 100%
-  );
-}
-.hero--title {
-  font-size: 4.5rem;
-  text-align: center;
-  color: #fff;
-  padding-top: 12rem;
-  padding-bottom: 3rem;
-}
-.hero--card {
-  flex: 1;
-}
-.hero--filter {
+.hero--search-filter {
+  width: 70%;
+  /* background: gray; */
+  height: 96%;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 1rem 5px;
 }
-.ant-select {
-  flex: 1;
-  background: rgba(212, 212, 212, 0.2);
+.search-details {
+  width: 400px;
+  position: relative;
+}
+.hero-detail {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  gap: 20px;
+  top: 50%;
+  left: 110%;
+  transform: translate(-50%, -50%);
+}
+.hero-detail .hero--title {
+  font-size: 60px;
+}
+.search-details .search-box {
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  border: 1px solid #b4b1b1;
   border-radius: 20px;
 }
-.ant-select-selector {
-  background: transparent !important;
-  border: none !important;
-  border-radius: 20px !important;
-  padding: 10px !important;
+.search-box .hero-filter-input {
+  width: 200px;
 }
-.filter-search-btn {
-  flex: 1;
+
+.hero--image {
+  width: 100%;
+  background: #e6f7ff;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.hero--image {
+  display: flex;
+  align-items: flex-end;
+}
+.hero--image img {
+  width: 100%;
+}
+
+.hero--card-categoires {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.hero--card {
+  background: #f4f4f4;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  /* padding: 10px; */
+}
+.card-detail {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  overflow: auto;
+  /* gap: 20px; */
+}
+.card-detail h4 {
+  font-size: 1.4rem;
+  color: #363636;
+}
+.card-icon {
+  background: #fff;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+}
+.card-image {
+  display: flex;
+}
+.card-image img {
+  width: 100%;
 }

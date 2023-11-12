@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Layout, Button, Row, Col } from 'antd';
-import { UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import '../styles/header.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -25,10 +25,10 @@ const Navbar = () => {
               <Link to="/about">About</Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Link>Services</Link>
+              <Link to="/services">Services</Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link>Contact</Link>
+              <Link to="/contact">Contact</Link>
             </Menu.Item>
           </Menu>
         </Col>

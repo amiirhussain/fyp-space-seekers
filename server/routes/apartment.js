@@ -9,18 +9,17 @@ import {
 } from '../controllers/apartmentController.js';
 import authenticateToken from '../middlewares/authenticateToken.js';
 
-const router = express.Router();
+const apartmentRoute = express.Router();
 
 //Create
-router.post('/', authenticateToken, createApartment);
+apartmentRoute.post('/', authenticateToken, createApartment);
 //Update
-router.put('/:id', updateApartment);
+apartmentRoute.put('/:id', authenticateToken, updateApartment);
 //Delete
-router.delete('/:id', deleteApartment);
-//Get
-router.get('/:id', getApartment);
-//Get All
-router.get('/', authenticateToken, getAllApartments);
-router.get('/all', authenticateToken, getAllApartmentsByUser);
+apartmentRoute.delete('/:id', authenticateToken, deleteApartment);
+//Get apartment by user
+apartmentRoute.get('/by-user', authenticateToken, getAllApartmentsByUser);
+//Get all apartment list
+apartmentRoute.get('/get-all', getAllApartments);
 
-export default router;
+export default apartmentRoute;
