@@ -70,13 +70,19 @@
   font-size: 18px;
 }
 .home--list--container .apartment-detail {
-  margin-top: 30px;
+  margin-top: 2rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 .home--list--container .apartment-detail span {
   display: flex;
   gap: 10px;
+  align-items: center;
+}
+.home--list--container .apartment-detail span .icon {
+  font-size: 16px;
+  color: #7fa4d9;
 }
 .home--list--container .divider {
   border: 1px solid rgb(229, 229, 229);

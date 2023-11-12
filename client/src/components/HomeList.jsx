@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/List.css';
-
-import { GithubFilled } from '@ant-design/icons';
+import { SiZerodha } from 'react-icons/si';
+import { FaLocationDot, FaBath, FaBed } from 'react-icons/fa6';
 import { Button, Space } from 'antd';
 const ListApartment = () => {
   const [userToken] = useState(localStorage.getItem('token'));
@@ -54,19 +54,19 @@ const ListApartment = () => {
 
               <div className="list-type">{item.type}</div>
               <span className="apartment-address">
-                <GithubFilled className="icon" /> {item.address}
+                <FaLocationDot className="icon" /> {item.address}
               </span>
               <div className="apartment-detail">
                 <span>
-                  <GithubFilled />
+                  <SiZerodha className="icon" />
                   {item.size}
                 </span>
                 <span>
-                  <GithubFilled />
+                  <FaBed className="icon" />
                   {`${item.bedrooms} Bed`}
                 </span>
                 <span>
-                  <GithubFilled />
+                  <FaBath className="icon" />
                   {`${item.bathrooms} Bath`}
                 </span>
               </div>
@@ -81,7 +81,7 @@ const ListApartment = () => {
                   </span>
                 </div>
 
-                <Space className="apartment--action">
+                <Space className="list--action">
                   <Button type="primary">Chat</Button>
                   <Button>Schedule a visit</Button>
                 </Space>

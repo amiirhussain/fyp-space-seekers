@@ -1,6 +1,7 @@
 import { List, Space, Button } from 'antd';
-import { GithubFilled } from '@ant-design/icons';
-
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SiZerodha } from 'react-icons/si';
+import { FaLocationDot, FaBath, FaBed } from 'react-icons/fa6';
 const ApartList = ({ apartments, handleEdit, handleDelete }) => {
   console.log(apartments);
   return (
@@ -11,10 +12,14 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
       renderItem={(apartment) => (
         <List.Item key={apartment._id}>
           <div className="apartment--list">
-            <Button type="primary" onClick={() => handleEdit(apartment)}>
-              Edit
-            </Button>
-            <Button onClick={() => handleDelete(apartment._id)}>Delete</Button>
+            <div className="apartment-action">
+              <Button onClick={() => handleEdit(apartment)}>
+                <EditOutlined />
+              </Button>
+              <Button onClick={() => handleDelete(apartment._id)}>
+                <DeleteOutlined className="delte-btn" />
+              </Button>
+            </div>
             <div className="list--image">
               <img src={apartment.imageUrls[0]} alt={apartment.title} />
             </div>
@@ -35,19 +40,19 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
 
               <div className="list-type">{apartment.type}</div>
               <span className="apartment-address">
-                <GithubFilled className="icon" /> {apartment.address}
+                <FaLocationDot className="icon" /> {apartment.address}
               </span>
               <div className="apartment-detail">
                 <span>
-                  <GithubFilled />
-                  {apartment.size}
+                  <SiZerodha className="icon" />
+                  {`${apartment.size} sq ft.`}
                 </span>
                 <span>
-                  <GithubFilled />
+                  <FaBed className="icon" />
                   {`${apartment.bedrooms} Bed`}
                 </span>
                 <span>
-                  <GithubFilled />
+                  <FaBath className="icon" />
                   {`${apartment.bathrooms} Bath`}
                 </span>
               </div>
@@ -62,7 +67,7 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
                   </span>
                 </div>
 
-                <Space className="apartment--action">
+                <Space className="list--action">
                   <Button type="primary">Chat</Button>
                   <Button>Schedule a visit</Button>
                 </Space>

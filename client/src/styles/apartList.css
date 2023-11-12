@@ -2,10 +2,20 @@
   margin-top: 2rem;
 }
 .list--container .apartment--list {
-  /* width: 1000px; */
   display: flex;
   align-items: center;
   gap: 30px;
+  position: relative;
+}
+.list--container .apartment-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  gap: 20px;
+}
+.list--container .apartment-action .delte-btn {
+  color: red;
 }
 .list--container .apartment--list .list--image img {
   width: 350px;
@@ -76,11 +86,17 @@
 .list--container .apartment-detail {
   margin-top: 20px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 .list--container .apartment-detail span {
   display: flex;
   gap: 10px;
+  align-items: center;
+}
+.list--container .apartment-detail span .icon {
+  font-size: 18px;
+  color: #7fa4d9;
 }
 .list--container .divider {
   border: 1px solid rgb(232, 232, 232);
@@ -110,7 +126,7 @@
   font-size: 10px;
 }
 
-.apartment--action,
+.list--action,
 button {
   text-transform: uppercase;
 }
