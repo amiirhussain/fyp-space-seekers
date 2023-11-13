@@ -19,13 +19,7 @@ export const Hero = () => {
   };
   return (
     <section className="hero">
-      <Flex
-        align="center"
-        gap="middle"
-        justify="space-between"
-        style={{ height: '100%' }}
-        className="hero--container"
-      >
+      <div className="hero--container">
         <div className="hero--search-filter">
           <div className="search-details">
             <div className="hero-detail">
@@ -143,7 +137,7 @@ export const Hero = () => {
           {/* <div className="hero-card"></div>
           <div className="hero-card"></div> */}
         </div>
-      </Flex>
+      </div>
     </section>
   );
 };

@@ -7,7 +7,6 @@ import ForgotPassword from './Auth/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Navbar from './components/Header';
 import { useState, useEffect } from 'react';
-import AppartmentList from './components/ApartmentList';
 import Home from './pages/Home';
 
 import SpaceSeekerServices from './pages/Services';

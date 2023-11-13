@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Input, Select, Checkbox, message } from 'antd';
-import UserApartment from './UserApartment';
+import useApartmentApi from '../hooks/useApartmentApi';
+import ApartList from './ApartList';
 
 const { Option } = Select;
 
@@ -8,57 +9,46 @@ const AddApartment = () => {
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [userToken] = useState(localStorage.getItem('token'));
 
-  // useEffect(() => {
-  //   // If in edit mode, set the edit data when the component mounts
-  //   if (editMode) {
-  //     setEditData();
-  //   }
-  // }, [editMode]);
+  const {
+    apartments,
+    loading,
+    fetchUserApartments,
+    addApartment,
+    updateApartment,
+    deleteApartment,
+  } = useApartmentApi();
+
+  const handleSuccess = () => {
+    setOpen(false);
+    message.success(
+      editMode
+        ? 'Apartment Updated successfully'
+        : 'Apartment Added successfully',
+    );
+    fetchUserApartments();
+  };
 
   const handleSubmit = (values) => {
-    fetch('http://localhost:1337/apartment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': userToken,
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setOpen(false);
-        message.success('Apartment Added successfully');
-      })
-      .catch((error) => {
-        console.error('Error creating apartment:', error);
-      });
+    addApartment(values, () => {
+      handleSuccess();
+      form.resetFields();
+    });
   };
 
   const handleEditSubmit = (values) => {
     if (editData) {
-      fetch(`http://localhost:1337/apartment/${editData._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': userToken,
-        },
-        body: JSON.stringify(values),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setOpen(false);
-          message.success('Apartment Updated successfully');
-        })
-        .catch((error) => {
-          console.error('Error updating apartment:', error);
-        });
+      updateApartment(editData._id, values, () => {
+        handleSuccess();
+        form.resetFields();
+      });
     } else {
       console.error('Edit data is null');
     }
+  };
+
+  const handleDelete = (apartmentId) => {
+    deleteApartment(apartmentId, handleSuccess);
   };
 
   const handleEdit = (apartment) => {
@@ -66,6 +56,35 @@ const AddApartment = () => {
     setEditMode(true);
     setEditData(apartment);
   };
+
+  const handleOpenModal = () => {
+    setOpen(true);
+    setEditMode(false);
+    setEditData(null);
+    form.resetFields();
+  };
+
+  useEffect(() => {
+    if (editMode && editData) {
+      form.setFieldsValue({
+        type: editData.type,
+        title: editData.title,
+        imageUrl:
+          editData.imageUrls && editData.imageUrls.length > 0
+            ? editData.imageUrls[0]
+            : '',
+        address: editData.address,
+        size: editData.size,
+        rent: editData.rent,
+        bedrooms: editData.bedrooms,
+        bathrooms: editData.bathrooms,
+        furnished: editData.furnished,
+        parking: editData.parking,
+      });
+    }
+  }, [editMode, editData]);
+
+  const [form] = Form.useForm();
 
   return (
     <div>
@@ -79,7 +98,7 @@ const AddApartment = () => {
       >
         <h2 style={{ color: 'gray' }}>My Apartment List</h2>
 
-        <Button type="primary" onClick={() => setOpen(true)}>
+        <Button type="primary" onClick={handleOpenModal}>
           Add Apartment
         </Button>
       </div>
@@ -91,49 +110,66 @@ const AddApartment = () => {
         onCancel={() => {
           setOpen(false);
           setEditMode(false);
+          form.resetFields();
         }}
         width={800}
       >
         <Form
-          labelCol={{
-            span: 3,
-          }}
-          wrapperCol={{
-            span: 20,
-          }}
+          form={form}
+          // labelCol={{
+          //   span: 3,
+          // }}
+          // wrapperCol={{
+          //   span: 20,
+          // }}
           style={{ marginTop: '2rem' }}
           name="register-form"
           onFinish={editMode ? handleEditSubmit : handleSubmit}
           autoComplete="off"
+          layout="vertical"
         >
-          <Form.Item
-            name="type"
-            label="Type"
-            rules={[
-              {
-                required: true,
-                message: 'Please select the type',
-              },
-            ]}
+          <div
+            style={{
+              display: 'flex ',
+              gap: '10px',
+              // justifyContent: 'space-between',
+            }}
           >
-            <Select value={'Select Type'} style={{ width: 160 }}>
-              <Option value="Room">Room</Option>
-              <Option value="House/Flat">House / Flat</Option>
-              <Option value="Hostel">Hostel</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="title"
-            label="Title"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the title',
-              },
-            ]}
-          >
-            <Input placeholder="Title" />
-          </Form.Item>
+            <Form.Item
+              name="type"
+              label="Type"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select the type',
+                },
+              ]}
+            >
+              <Select
+                size="large"
+                value={'Select Type'}
+                placeholder="Select Type"
+                style={{ width: 180 }}
+              >
+                <Option value="Room">Room</Option>
+                <Option value="House/Flat">House / Flat</Option>
+                <Option value="Hostel">Hostel</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              style={{ width: '100%' }}
+              name="title"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the title',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Title" />
+            </Form.Item>
+          </div>
           <Form.Item
             name="imageUrl"
             label="Image Link"
@@ -144,7 +180,7 @@ const AddApartment = () => {
               },
             ]}
           >
-            <Input placeholder="Image URL" />
+            <Input size="large" placeholder="Image URL" />
           </Form.Item>
 
           <Form.Item
@@ -157,63 +193,101 @@ const AddApartment = () => {
               },
             ]}
           >
-            <Input placeholder="Address" />
+            <Input size="large" placeholder="Address" />
           </Form.Item>
-          <Form.Item
-            name="size"
-            label="Size"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the size',
-              },
-            ]}
+          <div
+            style={{
+              display: 'flex ',
+              gap: '10px',
+              justifyContent: 'space-between',
+            }}
           >
-            <Input placeholder="Size" />
-          </Form.Item>
-          <Form.Item
-            name="bedrooms"
-            label="Bedrooms"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the number of bedrooms',
-              },
-            ]}
-          >
-            <Input placeholder="Bedrooms" />
-          </Form.Item>
-          <Form.Item
-            name="bathrooms"
-            label="Bathrooms"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the number of bathrooms',
-              },
-            ]}
-          >
-            <Input placeholder="Bathrooms" />
-          </Form.Item>
+            <Form.Item
+              name="size"
+              label="Size"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the size',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Size" />
+            </Form.Item>
+            <Form.Item
+              name="rent"
+              label="Rent"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the size',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Rent" />
+            </Form.Item>
 
-          <Form.Item
-            name="furnished"
-            label="Furnished?"
-            valuePropName="checked"
+            <Form.Item
+              name="bedrooms"
+              label="Bedrooms"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the number of bedrooms',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Bedrooms" />
+            </Form.Item>
+            <Form.Item
+              name="bathrooms"
+              label="Bathrooms"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the number of bathrooms',
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Bathrooms" />
+            </Form.Item>
+          </div>
+          <div
+            style={{
+              display: 'flex ',
+              gap: '20px',
+              alignItems: 'center',
+            }}
           >
-            <Checkbox />
-          </Form.Item>
-          <Form.Item name="parking" label="Parking?" valuePropName="checked">
-            <Checkbox />
-          </Form.Item>
-          <Form.Item label=" " colon={false}>
-            <Button type="primary" htmlType="submit">
+            <Form.Item
+              name="furnished"
+              label="Furnished?"
+              valuePropName="checked"
+            >
+              <Checkbox size="large" />
+            </Form.Item>
+            <Form.Item name="parking" label="Parking?" valuePropName="checked">
+              <Checkbox size="large" />
+            </Form.Item>
+          </div>
+          <Form.Item>
+            <Button size="large" type="primary" htmlType="submit">
               {editMode ? 'Update' : 'Submit'}
             </Button>
           </Form.Item>
         </Form>
       </Modal>
-      <UserApartment handleEdit={handleEdit} />
+      <div>
+        {loading ? (
+          <p>Loading apartments...</p>
+        ) : (
+          <ApartList
+            apartments={apartments}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        )}
+      </div>
     </div>
   );
 };

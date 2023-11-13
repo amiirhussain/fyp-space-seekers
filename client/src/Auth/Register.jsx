@@ -8,18 +8,31 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
 
+  const userNameValidator = /^[a-zA-Z0-9_-]{3,20}$/; // Alphanumeric characters, underscores, and hyphens, 3 to 20 characters
+  const fullNameValidator = /^[a-zA-Z\s'-]{2,50}$/; // Alphabets, spaces, hyphens, apostrophes, 2 to 50 characters
   const passwordValidator =
-    /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const onFinish = async (values) => {
-    if (values.password !== values.confirmPassword) {
-      setPasswordError('Passwords do not match');
+    if (!userNameValidator.test(values.userName)) {
+      // message.error('Username should not contain spaces');
+      message.error(
+        'Username should be alphanumeric and may contain underscores or hyphens (3 to 20 characters)',
+      );
+      return;
+    }
+
+    if (!fullNameValidator.test(values.fullName)) {
+      // message.error('Full name should only contain alphabets');
+      message.error(
+        'Full name should consist of alphabets, spaces, hyphens, and apostrophes (2 to 50 characters)',
+      );
       return;
     }
 
     if (!passwordValidator.test(values.password)) {
       setPasswordError(
-        'Password must be at least 6 characters and include at least one number, one alphabet character, and one special character',
+        'Invalid password format (8 characters minimum, at least one uppercase letter, one lowercase letter, one digit, and one special character)',
       );
       return;
     }
@@ -70,7 +83,13 @@ const Register = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <div style={{ display: 'flex ', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: 'flex ',
+              gap: '10px',
+              justifyContent: 'space-between',
+            }}
+          >
             <Form.Item
               name="userName"
               label="Username"
@@ -78,6 +97,11 @@ const Register = () => {
                 {
                   required: true,
                   message: 'Please input your User name',
+                },
+                {
+                  pattern: userNameValidator,
+                  message:
+                    'Invalid username format (3 to 20 characters, alphanumeric, underscores, hyphens)',
                 },
               ]}
             >
@@ -90,6 +114,11 @@ const Register = () => {
                 {
                   required: true,
                   message: 'Please input your Full name!',
+                },
+                {
+                  pattern: fullNameValidator,
+                  message:
+                    'Invalid full name format (2 to 50 characters, alphabets, spaces, hyphens, apostrophes)',
                 },
               ]}
             >

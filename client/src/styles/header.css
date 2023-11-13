@@ -1,6 +1,6 @@
 .header {
   background: #fff;
-  padding: 0 10%;
+  /* padding: 0 10%; */
   border: 1px solid rgb(241, 240, 240);
   position: sticky;
   top: 0;
@@ -24,4 +24,10 @@ a {
 }
 .logo img {
   width: 50px;
+}
+
+@media screen and (max-width: 800px) {
+  .auth-buttons {
+    display: none;
+  }
 }

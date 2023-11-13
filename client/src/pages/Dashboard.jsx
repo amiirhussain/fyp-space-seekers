@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Layout,
-  Menu,
-  theme,
-  Button,
-  Dropdown,
-  Flex,
-  message,
-  Result,
-} from 'antd';
+import { Layout, theme, Button, Dropdown, message, Result } from 'antd';
 import SidebarMenuList from '../components/SidebarMenuList';
 const { Header, Content, Footer, Sider } = Layout;
 import { EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import ApartmentList from '../components/ApartmentList';
-import UserApartment from '../components/UserApartment';
 import AddApartment from '../components/AddAppartment';
 
 const items = [
@@ -49,8 +38,8 @@ const Dashboard = ({ setUserLoggedIn }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/');
-      message.error('Please login here'); //
+      navigate('/login');
+      message.error('Please login here');
     }
     setUserLoggedIn(!!isAuthenticated);
   }, [isAuthenticated, history, setUserLoggedIn]);
@@ -118,7 +107,6 @@ const Dashboard = ({ setUserLoggedIn }) => {
             }}
           >
             {selectedMenuItem === 'home' && <AddApartment />}
-            {selectedMenuItem === 'list' && <ApartmentList />}
             {selectedMenuItem === 'analytics' && (
               <Result
                 status="info"

@@ -6,7 +6,7 @@ import CustomFooter from '../components/Footer';
 
 const Home = () => {
   return (
-    <div style={{ padding: '0 10%' }}>
+    <div className="home">
       <Hero />
       <ListApartment />
       <CustomFooter />

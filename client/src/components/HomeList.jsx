@@ -36,7 +36,7 @@ const ListApartment = () => {
       <h2 className="section--title">Latest Listed Rooms</h2>
       <div className="home--list--container">
         {apartments.map((item) => (
-          <div key={item._id} className="apartment--list">
+          <d iv key={item._id} className="apartment--list">
             <div className="list--image">
               <img src={item.imageUrls[0]} alt={item.title} />
             </div>
@@ -87,7 +87,7 @@ const ListApartment = () => {
                 </Space>
               </div>
             </div>
-          </div>
+          </d>
         ))}
       </div>
     </section>

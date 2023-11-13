@@ -1,9 +1,17 @@
-import { List, Space, Button } from 'antd';
+import { List, Space, Button, Popconfirm, message } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { SiZerodha } from 'react-icons/si';
 import { FaLocationDot, FaBath, FaBed } from 'react-icons/fa6';
+import '../styles/apartList.css';
 const ApartList = ({ apartments, handleEdit, handleDelete }) => {
-  console.log(apartments);
+  const handleDeleteConfirm = (apartmentId) => {
+    handleDelete(apartmentId);
+  };
+
+  const handleDeleteCancel = () => {
+    message.info('Delete action canceled');
+  };
+
   return (
     <List
       className="list--container"
@@ -16,9 +24,17 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
               <Button onClick={() => handleEdit(apartment)}>
                 <EditOutlined />
               </Button>
-              <Button onClick={() => handleDelete(apartment._id)}>
-                <DeleteOutlined className="delte-btn" />
-              </Button>
+              <Popconfirm
+                title="Are you sure to delete this apartment?"
+                onConfirm={() => handleDeleteConfirm(apartment._id)}
+                onCancel={handleDeleteCancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button>
+                  <DeleteOutlined className="delte-btn" />
+                </Button>
+              </Popconfirm>
             </div>
             <div className="list--image">
               <img src={apartment.imageUrls[0]} alt={apartment.title} />
@@ -26,16 +42,6 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
             <div className="list-detail">
               <div className="list--header">
                 <h2 className="list-title">{apartment.title}</h2>
-
-                {/* <div
-                  className={`list-status ${
-                    apartment.isAvailble
-                      ? 'list-status-true'
-                      : 'list-status-false'
-                  }`}
-                >
-                  {apartment.isAvailble ? 'Available' : 'Not Available'}
-                </div> */}
               </div>
 
               <div className="list-type">{apartment.type}</div>
@@ -63,7 +69,10 @@ const ApartList = ({ apartments, handleEdit, handleDelete }) => {
                 <div className="apartment-rent">
                   <span className="rent--slogan">Start from</span>
                   <span className="rent-mount">
-                    Rs15,499 <span>/mo*</span>
+                    {apartment.rent
+                      ? `Rs${apartment.rent.toLocaleString()}`
+                      : 'Rs15,499 '}
+                    <span>/mo*</span>
                   </span>
                 </div>
 
