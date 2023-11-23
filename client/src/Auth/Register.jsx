@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Card, message, Row, Space } from 'antd';
+import { Button, Form, Input, Card, message } from 'antd';
 import '../styles/auth.css';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -8,25 +8,22 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
 
-  const userNameValidator = /^[a-zA-Z0-9_-]{3,20}$/; // Alphanumeric characters, underscores, and hyphens, 3 to 20 characters
-  const fullNameValidator = /^[a-zA-Z\s'-]{2,50}$/; // Alphabets, spaces, hyphens, apostrophes, 2 to 50 characters
+  const userNameValidator = /^[a-zA-Z0-9_-]{3,20}$/;
+  const fullNameValidator = /^[a-zA-Z\s'-]{2,50}$/;
   const passwordValidator =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const onFinish = async (values) => {
+    if (values.password !== values.confirmPassword) {
+      setPasswordError('Passwords do not match');
+      return;
+    }
+
     if (!userNameValidator.test(values.userName)) {
-      // message.error('Username should not contain spaces');
-      message.error(
-        'Username should be alphanumeric and may contain underscores or hyphens (3 to 20 characters)',
-      );
       return;
     }
 
     if (!fullNameValidator.test(values.fullName)) {
-      // message.error('Full name should only contain alphabets');
-      message.error(
-        'Full name should consist of alphabets, spaces, hyphens, and apostrophes (2 to 50 characters)',
-      );
       return;
     }
 

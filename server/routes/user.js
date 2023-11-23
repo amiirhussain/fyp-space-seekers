@@ -5,6 +5,7 @@ import {
   getUser,
   updateUser,
 } from '../controllers/userController.js';
+import authenticateToken from '../middlewares/authenticateToken.js';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.put('/:id', updateUser);
 //Delete
 router.delete('/:id', deleteUser);
 //Get
-router.get('/:id', getUser);
+router.get('/single-user', authenticateToken, getUser);
 //Get All
 router.get('/', getAllUsers);
 

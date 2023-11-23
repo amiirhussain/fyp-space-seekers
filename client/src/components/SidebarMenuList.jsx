@@ -4,6 +4,7 @@ import {
   MessageOutlined,
   AreaChartOutlined,
   SettingOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import '../styles/sidebarMenu.css';
 import logoImage from '../assets/logo.png';
@@ -26,6 +27,7 @@ const SidebarMenuList = ({ onMenuClick }) => {
         theme="dark"
         mode="inline"
         className="menu-bar"
+        defaultSelectedKeys={['dashboard']}
       >
         <Menu.Item key="dashboard" icon={<HomeOutlined />}>
           Dashboard
@@ -36,6 +38,9 @@ const SidebarMenuList = ({ onMenuClick }) => {
         </Menu.Item>
         <Menu.Item key="chats" icon={<MessageOutlined />}>
           Chats
+        </Menu.Item>
+        <Menu.Item key="profile" icon={<UserOutlined />}>
+          Profile
         </Menu.Item>
         <Menu.Item key="setting" icon={<SettingOutlined />}>
           Setting

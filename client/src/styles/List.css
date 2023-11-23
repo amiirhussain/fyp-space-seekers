@@ -81,6 +81,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  color: #3c7cd4;
 }
 .home--list--container .apartment-detail span .icon {
   font-size: 16px;
@@ -109,6 +110,7 @@
 .home--list--container .rent-mount {
   font-weight: bold;
   font-size: 1rem;
+  color: #7fa4d9;
 }
 .home--list--container .rent-mount span {
   font-size: 10px;

@@ -21,5 +21,7 @@ apartmentRoute.delete('/:id', authenticateToken, deleteApartment);
 apartmentRoute.get('/by-user', authenticateToken, getAllApartmentsByUser);
 //Get all apartment list
 apartmentRoute.get('/get-all', getAllApartments);
+// get by id
+apartmentRoute.get('/:id', getApartment);
 
 export default apartmentRoute;

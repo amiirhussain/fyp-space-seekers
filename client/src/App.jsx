@@ -3,14 +3,13 @@ import Login from './Auth/Login';
 import Register from './Auth/Register';
 import About from './pages/About';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import ForgotPassword from './Auth/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Navbar from './components/Header';
 import { useState, useEffect } from 'react';
 import Home from './pages/Home';
-
 import SpaceSeekerServices from './pages/Services';
 import ContactUs from './pages/Contact';
+import ApartmentDetail from './components/ApartmentDetail';
 
 function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -45,7 +44,7 @@ function App() {
         />
         <Route path="/services" element={<SpaceSeekerServices />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/apartment/:id" element={<ApartmentDetail />} />
       </Routes>
     </>
   );

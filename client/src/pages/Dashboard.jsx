@@ -7,12 +7,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import AddApartment from '../components/AddAppartment';
 
 const items = [
-  {
-    key: '1',
-    label: <Link to="/profile">Edit Profile</Link>,
-    icon: <EditOutlined />,
-    disabled: true,
-  },
+  // {
+  //   key: '1',
+  //   label: <Link to="/profile">Edit Profile</Link>,
+  //   icon: <EditOutlined />,
+  //   disabled: true,
+  // },
   {
     key: '2',
     label: (
@@ -31,7 +31,7 @@ const items = [
 ];
 
 const Dashboard = ({ setUserLoggedIn }) => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState('home');
+  const [selectedMenuItem, setSelectedMenuItem] = useState('dashboard');
   const isAuthenticated = localStorage.getItem('token');
 
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ const Dashboard = ({ setUserLoggedIn }) => {
               background: colorBgContainer,
             }}
           >
-            {selectedMenuItem === 'home' && <AddApartment />}
+            {selectedMenuItem === 'dashboard' && <AddApartment />}
             {selectedMenuItem === 'analytics' && (
               <Result
                 status="info"

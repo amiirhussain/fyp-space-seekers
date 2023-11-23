@@ -110,6 +110,9 @@ export const updateApartment = async (req, res, next) => {
 export const getApartment = async (req, res, next) => {
   try {
     const apartment = await Apartment.findById(req.params.id);
+    if (!apartment) {
+      return res.status(404).json({ status: 'error', error: 'List not found' });
+    }
     res.status(200).send(apartment);
   } catch (error) {
     next(error);

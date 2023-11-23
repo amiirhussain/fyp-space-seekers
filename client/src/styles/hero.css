@@ -20,7 +20,7 @@
   flex: 1;
 }
 .search-details {
-  width: 300px;
+  width: 400px;
   position: relative;
 }
 .hero-detail {
@@ -100,6 +100,12 @@
   padding: 10px;
   border-radius: 50%;
   font-size: 1.6rem;
+  cursor: pointer;
+}
+.card-icon:hover {
+  background: #b4b1b1;
+  color: #fff;
+  transition: 0.3s ease-in;
 }
 .card-image {
   display: flex;

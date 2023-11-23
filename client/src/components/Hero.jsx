@@ -88,6 +88,10 @@ export const Hero = () => {
                           value: 'islamabad',
                           label: 'Islamabad',
                         },
+                        {
+                          value: 'rawalpindi',
+                          label: 'Rawalpindi',
+                        },
                       ]}
                     />
                     <Button

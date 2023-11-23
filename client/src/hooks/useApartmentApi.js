@@ -1,4 +1,4 @@
-// apartmentApi.js
+import { message } from 'antd';
 import { useState, useEffect } from 'react';
 
 const useApartmentApi = () => {
@@ -68,7 +68,7 @@ const useApartmentApi = () => {
       });
   };
 
-  const deleteApartment = (apartmentId, onSuccess) => {
+  const deleteApartment = (apartmentId) => {
     fetch(`http://localhost:1337/apartment/${apartmentId}`, {
       method: 'DELETE',
       headers: {
@@ -79,7 +79,8 @@ const useApartmentApi = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        onSuccess();
+        message.success('Delete Succesfully');
+        fetchUserApartments();
       })
       .catch((error) => {
         console.error('Error deleting apartment:', error);

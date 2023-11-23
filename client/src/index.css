@@ -2,6 +2,7 @@
 * {
   margin: 0;
   padding: 0;
+  text-decoration: none;
   font-family: 'Poppins', sans-serif;
 }
 .section--title {
@@ -11,11 +12,14 @@
 .header {
   padding: 0 10%;
 }
-.home,
+.home {
+  padding: 0rem 10%;
+}
 .about,
 .services,
-.contact {
-  padding: 0rem 10%;
+.contact,
+.apartment--detail {
+  padding: 2rem 10%;
 }
 
 @media screen and (max-width: 1200px) {
