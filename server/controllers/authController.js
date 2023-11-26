@@ -22,7 +22,7 @@ export const register = async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
     });
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', message: 'User Registered Successfully' });
   } catch (err) {
     next(err);
   }
@@ -47,7 +47,11 @@ export const login = async (req, res, next) => {
         JWT_SECRET,
       );
 
-      return res.json({ status: 'ok', user: token });
+      return res.json({
+        status: 'ok',
+        user: token,
+        message: 'Login Sucessfully',
+      });
     } else {
       return res
         .status(400)
