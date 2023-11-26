@@ -5,6 +5,7 @@ const { Header, Content, Footer, Sider } = Layout;
 import { EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import AddApartment from '../components/AddAppartment';
+import UserProfile from '../components/UserProfile';
 
 const items = [
   // {
@@ -107,6 +108,8 @@ const Dashboard = ({ setUserLoggedIn }) => {
             }}
           >
             {selectedMenuItem === 'dashboard' && <AddApartment />}
+            {selectedMenuItem === 'profile' && <UserProfile />}
+
             {selectedMenuItem === 'analytics' && (
               <Result
                 status="info"
