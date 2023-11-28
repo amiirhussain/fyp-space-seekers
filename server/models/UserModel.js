@@ -39,6 +39,31 @@ const userSchema = new mongoose.Schema(
     education: {
       type: String,
     },
+    gender: {
+      type: String,
+    },
+    bloodGroup: {
+      type: String,
+    },
+    dob: {
+      type: String,
+    },
+    perAddress: {
+      type: String,
+    },
+    resAddress: {
+      type: String,
+    },
+
+    cleanliness: String,
+    socialHabits: String,
+    workOrStudyHours: String,
+    hobbies: [String],
+    foodPreferences: String,
+    personalityTraits: [String],
+    sleepHabits: String,
+    petPreferences: String,
+    budget: Number,
   },
   { timestamps: true },
 );

@@ -1,11 +1,39 @@
 import User from '../models/UserModel.js';
-import CryptoJS from 'crypto-js';
+import bcrypt from 'bcrypt';
+
+export const updatePassword = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({ message: 'Password is required' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { password: hashedPassword } },
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
+  }
+};
 
 // Update User
 export const updateUser = async (req, res, next) => {
   try {
-    const userId = req.params.id; // Extract the user ID from the request parameters
-
+    const userId = req.params.id;
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: req.body },
@@ -38,7 +66,7 @@ export const getUser = async (req, res, next) => {
   try {
     const userEmail = req.user.email;
 
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({ email: userEmail }).select('-password');
     if (!user) {
       return res.status(404).json({ status: 'error', error: 'User not found' });
     }
