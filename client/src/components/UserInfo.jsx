@@ -142,17 +142,53 @@ const UserInfo = ({
             <Form.Item label="Email" name="email">
               <Input size="large" disabled />
             </Form.Item>
-            <Form.Item label="Full Name" name="fullName">
+            <Form.Item
+              label="Full Name"
+              name="fullName"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Full Name!',
+                },
+              ]}
+            >
               <Input size="large" />
             </Form.Item>
-            <Form.Item label="Profile Image" name="profileImage">
+            <Form.Item
+              label="Profile Image"
+              name="profileImage"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Image URL!',
+                },
+              ]}
+            >
               <Input size="large" />
             </Form.Item>
 
-            <Form.Item label="Phone" name="phone">
+            <Form.Item
+              label="Phone"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Phone Number!',
+                },
+              ]}
+            >
               <Input size="large" />
             </Form.Item>
-            <Form.Item label="Education" name="education">
+            <Form.Item
+              label="Education"
+              name="education"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Education!',
+                },
+              ]}
+            >
               <Input size="large" />
             </Form.Item>
 

@@ -22,6 +22,7 @@ const UserPreferencesDetail = ({
 
         <Modal
           title="Edit User Prefernces"
+          centered
           open={preferenceModal}
           onOk={() => setPreferenceModal(false)}
           onCancel={() => setPreferenceModal(false)}
@@ -34,7 +35,13 @@ const UserPreferencesDetail = ({
             layout="vertical"
             style={{ marginTop: '2rem' }}
           >
-            <Row style={{ display: 'flex', gap: '20px' }}>
+            <div
+              style={{
+                display: 'flex ',
+                gap: '10px',
+                justifyContent: 'space-between',
+              }}
+            >
               <Form.Item
                 name="cleanliness"
                 label="Cleanliness"
@@ -99,9 +106,15 @@ const UserPreferencesDetail = ({
                   <Option value="Night Owl">Night Owl</Option>
                 </Select>
               </Form.Item>
-            </Row>
+            </div>
 
-            <Row style={{ display: 'flex', gap: '20px' }}>
+            <div
+              style={{
+                display: 'flex ',
+                gap: '10px',
+                justifyContent: 'space-between',
+              }}
+            >
               <Form.Item
                 name="foodPreferences"
                 label="Food Preferences"
@@ -165,7 +178,7 @@ const UserPreferencesDetail = ({
                   <Option value="No Pets">No Pets</Option>
                 </Select>
               </Form.Item>
-            </Row>
+            </div>
             <Form.Item
               name="hobbies"
               label="Hobbies"

@@ -66,17 +66,53 @@ const UserPersonalDetail = ({
                 </Select>
               </Form.Item>
 
-              <Form.Item label="Date Of Birth" name="dob">
+              <Form.Item
+                label="Date Of Birth"
+                name="dob"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Date Of Birth!',
+                  },
+                ]}
+              >
                 <input type="date" className="date" />
               </Form.Item>
-              <Form.Item label="Blood Group" name="bloodGroup">
+              <Form.Item
+                label="Blood Group"
+                name="bloodGroup"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Blood Group!',
+                  },
+                ]}
+              >
                 <Input size="large" />
               </Form.Item>
-              <Form.Item label="Permanent Address" name="perAddress">
+              <Form.Item
+                label="Permanent Address"
+                name="perAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Permanent Address!',
+                  },
+                ]}
+              >
                 <Input size="large" />
               </Form.Item>
 
-              <Form.Item label="Residential Address" name="resAddress">
+              <Form.Item
+                label="Residential Address"
+                name="resAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Residential Address!',
+                  },
+                ]}
+              >
                 <Input size="large" />
               </Form.Item>
 

@@ -174,7 +174,7 @@ const UserProfile = () => {
         )}
 
         <div className="user--row">
-          {loading ? ( // Render Skeleton while loading
+          {loading ? (
             <Skeleton active />
           ) : (
             <UserPersonalDetail
@@ -186,7 +186,7 @@ const UserProfile = () => {
             />
           )}
 
-          {loading ? ( // Render Skeleton while loading
+          {loading ? (
             <Skeleton active />
           ) : (
             <UserPreferencesDetail
