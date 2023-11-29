@@ -27,7 +27,7 @@ const Login = ({ setUserLoggedIn }) => {
 
       if (data.user) {
         localStorage.setItem('token', data.user);
-        setUserToken(data.user); // Store the user token in state
+        setUserToken(data.user);
         setUserLoggedIn(true);
         navigate('/dashboard');
       } else {

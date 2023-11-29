@@ -6,16 +6,11 @@ import { EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import AddApartment from '../components/AddAppartment';
 import UserProfile from '../components/UserProfile';
+import '../styles/dashboard.css';
 
 const items = [
-  // {
-  //   key: '1',
-  //   label: <Link to="/profile">Edit Profile</Link>,
-  //   icon: <EditOutlined />,
-  //   disabled: true,
-  // },
   {
-    key: '2',
+    key: '1',
     label: (
       <Link
         to="/"
@@ -34,7 +29,34 @@ const items = [
 const Dashboard = ({ setUserLoggedIn }) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState('dashboard');
   const isAuthenticated = localStorage.getItem('token');
+  const [userData, setUserData] = useState({});
 
+  useEffect(() => {
+    async function getUserProfile() {
+      try {
+        const res = await fetch('http://localhost:1337/user/single-user', {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': isAuthenticated,
+          },
+        });
+
+        if (res.status === 404) throw new Error('User not found');
+
+        if (res.status === 200) {
+          const data = await res.json();
+          setUserData(data);
+        }
+      } catch (error) {
+        console.log('Error:', error.message);
+      }
+    }
+
+    getUserProfile();
+  }, [isAuthenticated]);
+
+  console.log(userData.email);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,17 +104,26 @@ const Dashboard = ({ setUserLoggedIn }) => {
           }}
         >
           <h2 style={{ color: 'gray' }}>Dashboard</h2>
-          <Dropdown
-            menu={{
-              items,
-            }}
-            placement="bottomLeft"
-            arrow
-          >
-            <Button>
-              <UserOutlined />
-            </Button>
-          </Dropdown>
+
+          <div className="top-user-header">
+            <div className="logged--user">
+              <img src={userData.profileImage} alt="" />
+              <h3>{userData.fullName}</h3>
+            </div>
+
+            <div className="header--divider"></div>
+            <Dropdown
+              menu={{
+                items,
+              }}
+              placement="bottomLeft"
+              arrow
+            >
+              <Button>
+                <UserOutlined />
+              </Button>
+            </Dropdown>
+          </div>
         </Header>
         <Content
           style={{
